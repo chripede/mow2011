@@ -1,0 +1,29 @@
+﻿@model ContactListWeb.Models.Person
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Person</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Firstname @Model.Lastname</div>
+
+    <div class="display-label">Addresses</div>
+@foreach(var address in Model.Addresses) {
+    <div class="display-field">@address.AddressType: @address.Streetname, @address.City</div>
+}
+
+    <div class="display-label">Phone Numbers</div>
+@foreach (var phoneNumber in Model.PhoneNumbers) {
+    <div class="display-field">@phoneNumber.PhoneType: @phoneNumber.PhoneNumber</div>
+}
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
