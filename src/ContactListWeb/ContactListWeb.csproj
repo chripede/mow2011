@@ -37,6 +37,9 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\libs\nhibernate\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\..\libs\nhibernate.caches\EnyimMemcached\Enyim.Caching.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\libs\fluentnhibernate\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -46,12 +49,18 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\libs\nhibernate\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\libs\log4net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NHibernate">
       <HintPath>..\..\libs\nhibernate\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\libs\nhibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.EnyimMemcached">
+      <HintPath>..\..\libs\nhibernate.caches\EnyimMemcached\NHibernate.Caches.EnyimMemcached.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -80,6 +89,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\NHibernate\Mappings\AddressMap.cs" />
+    <Compile Include="Infrastructure\NHibernate\Mappings\PhoneMap.cs" />
+    <Compile Include="Infrastructure\SelectExtensions.cs" />
     <Compile Include="Infrastructure\PhoneType.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Infrastructure\AddressType.cs" />
@@ -152,6 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\CreateAddress.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\CreatePhone.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

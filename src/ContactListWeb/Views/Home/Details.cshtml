@@ -14,14 +14,18 @@
 
     <div class="display-label">Addresses</div>
 @foreach(var address in Model.Addresses) {
-    <div class="display-field">@address.AddressType: @address.Streetname, @address.City</div>
+    <div class="display-field">@Html.ActionLink("Delete", "DeleteAddress", new { id = address.Id, personId = Model.Id }) @address.AddressType: @address.Streetname, @address.City</div>
 }
 
     <div class="display-label">Phone Numbers</div>
 @foreach (var phoneNumber in Model.PhoneNumbers) {
-    <div class="display-field">@phoneNumber.PhoneType: @phoneNumber.PhoneNumber</div>
+    <div class="display-field">@Html.ActionLink("Delete", "DeletePhone", new { id=phoneNumber.Id, personId = Model.Id }) @phoneNumber.PhoneType: @phoneNumber.PhoneNumber</div>
 }
 </fieldset>
+<p>
+    @Html.ActionLink("Add Address", "CreateAddress", new { id = Model.Id }) |
+    @Html.ActionLink("Add Phone", "CreatePhone", new { id = Model.Id })
+</p>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

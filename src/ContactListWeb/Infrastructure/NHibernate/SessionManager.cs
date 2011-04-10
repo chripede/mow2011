@@ -2,7 +2,7 @@ using System.Data;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Tool.hbm2ddl;
+using NHibernate.Caches.EnyimMemcached;
 
 namespace ContactListWeb.Infrastructure.NHibernate
 {
@@ -38,6 +38,7 @@ namespace ContactListWeb.Infrastructure.NHibernate
                     .AdoNetBatchSize(100)
                     .IsolationLevel(IsolationLevel.Snapshot)
                     )
+                .Cache(c => c.ProviderClass(typeof(MemCacheProvider).AssemblyQualifiedName).UseSecondLevelCache())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<SessionManager>())
                 //.ExposeConfiguration((configuration => new SchemaExport(configuration).Create(false, true)))
                 .CurrentSessionContext(typeof(LazySessionContext).AssemblyQualifiedName)

@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ContactListWeb.Infrastructure.NHibernate;
 using ContactListWeb.Models;
 using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.Linq;
-using NHibernate.SqlCommand;
 
 namespace ContactListWeb.Controllers
 {
@@ -35,27 +31,22 @@ namespace ContactListWeb.Controllers
                 .Fetch(x => x.PhoneNumbers).Eager
                 .SingleOrDefault();
 
-            person = session.CreateCriteria<Person>()
-                .Add(Restrictions.Eq("Id", id))
-                .CreateAlias("Addresses", "addresses", JoinType.LeftOuterJoin)
-                .CreateAlias("PhoneNumbers", "phoneNumbers", JoinType.LeftOuterJoin)
-                .UniqueResult<Person>();
+            //person = session.CreateCriteria<Person>()
+            //    .Add(Restrictions.Eq("Id", id))
+            //    .CreateAlias("Addresses", "addresses", JoinType.LeftOuterJoin)
+            //    .CreateAlias("PhoneNumbers", "phoneNumbers", JoinType.LeftOuterJoin)
+            //    .UniqueResult<Person>();
 
-            person = (from p in session.Query<Person>()
-                      join a in session.Query<Address>() on p.Id equals a.Owner.Id
-                      join n in session.Query<Phone>() on p.Id equals n.Owner.Id
-                      where p.Id == id
-                      select p).SingleOrDefault();
+            //person = (from p in session.Query<Person>()
+            //          where p.Id == id
+            //          select p).SingleOrDefault();
 
-            person = session.CreateQuery(@"select p, a, n from p in Person 
-                                           left outer join p.Addresses as a 
-                                           left outer join p.PhoneNumbers as n 
-                                           where p = :id")
-                .SetInt32("id", id)
-                .UniqueResult().As<object[]>()[0] as Person;
+            //person = session.CreateQuery(@"from p in Person where p = :id")
+            //    .SetInt32("id", id)
+            //    .UniqueResult<Person>();
 
-            // Already in first level cache
-            person = session.Get<Person>(id);
+            //// Already in first level cache
+            //person = session.Get<Person>(id);
 
             return View(person);
         }
@@ -103,6 +94,56 @@ namespace ContactListWeb.Controllers
             session.Save(person);
 
             return new RedirectResult("/");
+        }
+
+        public ActionResult CreateAddress()
+        {
+            var address = new Address();
+
+            return View(address);
+        }
+
+        [HttpPost]
+        public ActionResult CreateAddress(int id, Address address)
+        {
+            var person = session.Load<Person>(id);
+            address.Owner = person;
+            session.Save(address);
+
+            return new RedirectResult("/Home/Details/" + id);
+        }
+
+        public ActionResult DeleteAddress(int id, int personId)
+        {
+            var address = session.Load<Address>(id);
+            session.Delete(address);
+
+            return new RedirectResult("/Home/Details/" + personId);
+        }
+
+        public ActionResult CreatePhone()
+        {
+            var phone = new Phone();
+
+            return View(phone);
+        }
+
+        [HttpPost]
+        public ActionResult CreatePhone(int id, Phone phone)
+        {
+            var person = session.Load<Person>(id);
+            phone.Owner = person;
+            session.Save(phone);
+
+            return new RedirectResult("/Home/Details/" + id);
+        }
+
+        public ActionResult DeletePhone(int id, int personId)
+        {
+            var phone = session.Load<Phone>(id);
+            session.Delete(phone);
+
+            return new RedirectResult("/Home/Details/" + personId);
         }
     }
 }
