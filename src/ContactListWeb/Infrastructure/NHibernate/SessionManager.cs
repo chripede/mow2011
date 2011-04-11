@@ -36,12 +36,12 @@ namespace ContactListWeb.Infrastructure.NHibernate
                     MsSqlConfiguration.MsSql2008
                     .ConnectionString(c => c.FromConnectionStringWithKey("DbConnection"))
                     .AdoNetBatchSize(100)
-                    .IsolationLevel(IsolationLevel.Snapshot)
+                    .IsolationLevel(IsolationLevel.ReadCommitted)
                     )
-                .Cache(c => c.ProviderClass(typeof(MemCacheProvider).AssemblyQualifiedName).UseSecondLevelCache())
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<SessionManager>())
                 //.ExposeConfiguration((configuration => new SchemaExport(configuration).Create(false, true)))
                 .CurrentSessionContext(typeof(LazySessionContext).AssemblyQualifiedName)
+                .Cache(c => c.ProviderClass<MemCacheProvider>().UseQueryCache())
                 .BuildSessionFactory();
         }
     }

@@ -18,6 +18,7 @@ namespace ContactListWeb.Controllers
         {
             var contacts = session.QueryOver<Person>()
                 .OrderBy(x => x.Firstname).Asc
+                .Cacheable()
                 .List();
 
             return View(contacts);
@@ -46,7 +47,7 @@ namespace ContactListWeb.Controllers
             //    .UniqueResult<Person>();
 
             //// Already in first level cache
-            //person = session.Get<Person>(id);
+            //var person = session.Get<Person>(id);
 
             return View(person);
         }

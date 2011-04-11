@@ -8,6 +8,7 @@ namespace ContactListWeb.Infrastructure.NHibernate.Mappings
         public AddressMap()
         {
             Table("Address");
+            Cache.ReadWrite();
 
             Id(x => x.Id).GeneratedBy.HiLo("1000");
             References(x => x.Owner).Not.Nullable();

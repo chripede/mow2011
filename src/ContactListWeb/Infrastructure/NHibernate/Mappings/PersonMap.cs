@@ -8,6 +8,7 @@ namespace ContactListWeb.Infrastructure.NHibernate.Mappings
         public PersonMap()
         {
             Table("Person");
+            Cache.ReadWrite();
 
             Id(x => x.Id).GeneratedBy.HiLo("1000");
             Map(x => x.Firstname);
