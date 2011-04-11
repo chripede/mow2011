@@ -18,7 +18,7 @@ namespace ContactListTest
         public void SetUp()
         {
             _session = SessionManager.Instance.SessionFactory.OpenSession();
-            _session.BeginTransaction(IsolationLevel.Snapshot);
+            _session.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         [TearDown]
