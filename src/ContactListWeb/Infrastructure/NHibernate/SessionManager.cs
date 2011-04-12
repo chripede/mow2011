@@ -29,7 +29,7 @@ namespace ContactListWeb.Infrastructure.NHibernate
 
         private static void InitSessionFactory()
         {
-            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            //HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 
             _sessionFactory = Fluently.Configure()
                 .Database(
@@ -39,9 +39,7 @@ namespace ContactListWeb.Infrastructure.NHibernate
                     .IsolationLevel(IsolationLevel.ReadCommitted)
                     )
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<SessionManager>())
-                //.ExposeConfiguration((configuration => new SchemaExport(configuration).Create(false, true)))
                 .CurrentSessionContext(typeof(LazySessionContext).AssemblyQualifiedName)
-                .Cache(c => c.ProviderClass<MemCacheProvider>().UseQueryCache())
                 .BuildSessionFactory();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using ContactListWeb.Infrastructure.NHibernate;
 using ContactListWeb.Models;
 using NHibernate;
@@ -11,54 +12,28 @@ namespace ContactListWeb.Controllers
 
         public HomeController()
         {
-            session = SessionManager.Instance.SessionFactory.GetCurrentSession();
+            //session = SessionManager.Instance.SessionFactory.GetCurrentSession();
         }
 
         public ActionResult Index()
         {
-            var contacts = session.QueryOver<Person>()
-                .OrderBy(x => x.Firstname).Asc
-                .Cacheable()
-                .List();
-
-            return View(contacts);
+            return View(new List<Person>());
         }
 
         public ActionResult Details(int id)
         {
-            var person = session.QueryOver<Person>()
-                .Where(x => x.Id == id)
-                .Fetch(x => x.Addresses).Eager
-                .Fetch(x => x.PhoneNumbers).Eager
-                .SingleOrDefault();
-
-            //person = session.CreateCriteria<Person>()
-            //    .Add(Restrictions.Eq("Id", id))
-            //    .UniqueResult<Person>();
-
-            //person = (from p in session.Query<Person>()
-            //          where p.Id == id
-            //          select p).SingleOrDefault();
-
-            //person = session.CreateQuery(@"from p in Person where p = :id")
-            //    .SetInt32("id", id)
-            //    .UniqueResult<Person>();
-
-            //// Already in first level cache
-            //var person = session.Get<Person>(id);
-
-            return View(person);
+            return View(new Person());
         }
 
         public ActionResult Delete(int id)
         {
-            var person = session.QueryOver<Person>()
-                .Where(x => x.Id == id)
-                .Fetch(x => x.Addresses).Eager
-                .Fetch(x => x.PhoneNumbers).Eager
-                .SingleOrDefault();
+            //var person = session.QueryOver<Person>()
+            //    .Where(x => x.Id == id)
+            //    .Fetch(x => x.Addresses).Eager
+            //    .Fetch(x => x.PhoneNumbers).Eager
+            //    .SingleOrDefault();
             
-            session.Delete(person);
+            //session.Delete(person);
 
             return new RedirectResult("/");
         }
@@ -73,9 +48,9 @@ namespace ContactListWeb.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Person updatedPerson)
         {
-            var person = session.Get<Person>(id);
-            person.Firstname = updatedPerson.Firstname;
-            person.Lastname = updatedPerson.Lastname;
+            //var person = session.Get<Person>(id);
+            //person.Firstname = updatedPerson.Firstname;
+            //person.Lastname = updatedPerson.Lastname;
             
             return new RedirectResult("/");
         }
