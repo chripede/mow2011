@@ -34,8 +34,6 @@ namespace ContactListWeb.Controllers
 
             //person = session.CreateCriteria<Person>()
             //    .Add(Restrictions.Eq("Id", id))
-            //    .CreateAlias("Addresses", "addresses", JoinType.LeftOuterJoin)
-            //    .CreateAlias("PhoneNumbers", "phoneNumbers", JoinType.LeftOuterJoin)
             //    .UniqueResult<Person>();
 
             //person = (from p in session.Query<Person>()
